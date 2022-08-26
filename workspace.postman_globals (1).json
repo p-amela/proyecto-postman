@@ -1,0 +1,57 @@
+{
+	"id": "576cd422-4dda-41b2-868c-eb98dea30287",
+	"values": [
+		{
+			"key": "urlBase",
+			"value": "https://dummyapi.io/data/v1/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ownerID",
+			"value": "",
+			"type": "any",
+			"enabled": false
+		},
+		{
+			"key": "postID",
+			"value": "",
+			"type": "any",
+			"enabled": false
+		},
+		{
+			"key": "postId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "randomString",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "putURL",
+			"value": "https://dummyapi.io/data/v1/post/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ownerID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "postID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2022-08-26T13:59:57.380Z",
+	"_postman_exported_using": "Postman/9.29.5"
+}

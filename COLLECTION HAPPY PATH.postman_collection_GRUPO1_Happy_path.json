@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "c6e53e67-ea99-425c-88df-6d29e250d338",
+		"name": "COLLECTION HAPPY PATH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23015736"
+	},
+	"item": [
+		{
+			"name": "get all post Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"user id found\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlBase}}/post?page=5",
+					"host": [
+						"{{urlBase}}"
+					],
+					"path": [
+						"post"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list by User Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"user id found\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.text();\r",
+							"pm.test(\"Verify that the response is String\", function (){\r",
+							"    pm.expect(response).to.be.a(\"string\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "6302f2b876847096efbca653",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "app-id",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlBase}}/user/:id/post",
+					"host": [
+						"{{urlBase}}"
+					],
+					"path": [
+						"user",
+						":id",
+						"post"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "60d0fe4f5311236168a10a0b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add new Post Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(`add a new post with a status code sucessfully: ${pm.response.code}`, function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"const req = pm.request.body.toJSON();\r",
+							"const ownerID= JSON.parse(req['raw']).owner;\r",
+							"pm.globals.set(\"ownerID\", ownerID);\r",
+							"pm.globals.set(\"postID\", response.id);\r",
+							"console.log(response.owner[\"id\"])\r",
+							"console.log(response.id)\r",
+							"pm.test(`Verify that owner ID:\"${ownerID}\" sent is present in response`,()=>{\r",
+							"    pm.expect(response.owner[\"id\"]).to.eql(ownerID);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n            \"image\": \"{{$randomImageUrl}}\",\r\n            \"text\": \"{{$randomWords}}\",\r\n            \"likes\": {{$randomInt}},\r\n            \"tags\":[\r\n                \"Digital Harbor\",\r\n                \"qa\"\r\n            ],\r\n            \"owner\": \"60d0fe4f5311236168a10a0b\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{urlBase}}post/create",
+					"host": [
+						"{{urlBase}}post"
+					],
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Post Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"const schema = {\r",
+							"    \"id\": \"string\",\r",
+							"    \"image\": \"string\",\r",
+							"    \"likes\": \"number\",\r",
+							"    \"link\": \"string\",\r",
+							"    \"text\": \"string\",\r",
+							"    \"publishDate\": \"string\"\r",
+							"};\r",
+							"pm.test('Post is valid', function() {\r",
+							"  pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"image\": \"https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg\",\r\n    \"likes\": 884,\r\n    \"tags\": [\r\n        \"animal\",\r\n        \"tests\",\r\n        \"qa\"\r\n    ],\r\n    \"text\": \"adult Labrador retriever\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{urlBase}}post/:id",
+					"host": [
+						"{{urlBase}}post"
+					],
+					"path": [
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{postID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete post with ID valid Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const requestUrl = pm.request.url;\r",
+							"const response = pm.response.text();\r",
+							"\r",
+							"console.log(requestUrl);\r",
+							"console.log( pm.response)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify that the portoloco of transfer is 'https'\", function (){\r",
+							"    pm.expect(requestUrl).to.have.property(\"protocol\",\"https\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify that the response is String\", function (){\r",
+							"    pm.expect(response).to.be.a(\"string\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify that the portoloco of transfer is 'https'\", function (){\r",
+							"    pm.expect(response).to.have.contain(\"id\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify that the ID response is equals to ID publication\", function (){\r",
+							"    pm.expect(pm.response.json().id).to.eql(pm.globals.get(\"postID\"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{urlBase}}post/:id",
+					"host": [
+						"{{urlBase}}post"
+					],
+					"path": [
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{postID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "app-id",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "6303631569dc926f8c3a8a7d",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
